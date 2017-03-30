@@ -1,4 +1,9 @@
-<!doctype html>
-<title>Hello from Flask</title>
-<h1>Hello, World!</h1>
-<a href='{{ url }}'>TheMathAge</a>
+{% extends "layout.html" %}
+{% block body %}
+<dl>
+  <dt><a href='{{ url_for('projects_TheMathAge') }}'>TheMathAge</a></dt>
+  <dd>
+    Statistical tool for calculating combat resolution between two units in <a href='http://www.the-ninth-age.com'>The Ninth Age</a>
+  </dd>
+</dl>
+{% endblock %}

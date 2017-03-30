@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block body %}
+<form action="{{ url_for('projects_TheMathAge')}}" method="get">
+  <dl>
+    <dt>Faction:</dt>
+    <dd><input type="text" size="30" name="faction"></dd>
+    <dt>Unit:</dt>
+    <dd><input type="text" size="30" name="unit"></dd>
+    <dt>Models:</dt>
+    <dd><input type="text" size="2"  name="models"></dd>
+    <dt>Ready:</dt>
+    <dd><input type="submit" value="Calculate!"></dd>
+  </dl>
+</form>
+{% endblock %}

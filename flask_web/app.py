@@ -5,15 +5,15 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html', url=url_for('index_theWebAge'))
+    return render_template('index.html', title="mr.mossevig.no")
 
 @app.route('/projects/')
-def index_projects():
-    return 'Proects Page'
+def projects():
+    return 'Projects Page'
 
 @app.route('/projects/TheMathAge')
-def index_theWebAge():
-    return 'TheWebAge'
+def projects_TheMathAge():
+    return render_template('TheMathAge.html', title="TheMathAge")
 
 
 if __name__ == '__main__':
