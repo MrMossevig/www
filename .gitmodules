@@ -1,0 +1,3 @@
+[submodule "flask_web/projects/TheMathAge"]
+	path = flask_web/projects/TheMathAge
+	url = https://github.com/MrMossevig/TheMathAge
