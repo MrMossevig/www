@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+{% block body %}
+<form action="{{ url_for('projectPage_TheMathAge')}}" method="get">
+  <dl>
+    <dt>Attacker Faction:</dt>
+    <dd>
+      <select name="afaction" onchange="this.form.submit();">
+	{% for entry in factionlist %}
+	<option value="{{ entry }}"{% if a.factionFileName == entry %}selected{% endif %}>{{ entry }}</option>
+	{% endfor %}
+      </select>
+    </dd>
+    {% if aunitlist %}
+    <dt>Attacker Unit:</dt>
+    <dd>
+      <select name="aunit">
+	{% for entry in aunitlist %}
+	<option value="{{ entry }}"{% if a.name == entry %}selected{% endif %}>{{ entry }}</option>
+	{% endfor %}
+      </select>
+    </dd>
+    <dt>Attacker Models:</dt>
+    <dd><input type="text" size="2" name="amodels" value="{{ a.models }}"></dd>
+    {% else %}
+    
+    {% endif %}
+
+    <dt>Defender Faction:</dt>
+    <dd>
+      <select name="dfaction" onchange="this.form.submit();">
+	{% for entry in factionlist %}
+	<option value="{{ entry }}"{% if d.factionFileName == entry %}selected{% endif %}>{{ entry }}</option>
+	{% endfor %}
+      </select>
+    </dd>
+    {% if dunitlist %}
+    <dt>Defender Unit:</dt>
+    <dd>
+      <select name="dunit">
+	{% for entry in dunitlist %}
+	<option value="{{ entry }}"{% if d.name == entry %}selected{% endif %}>{{ entry }}</option>
+	{% endfor %}
+      </select>
+    </dd>
+    <dt>Defender Models:</dt>
+    <dd><input type="text" size="2" name="dmodels" value="{{ d.models }}"></dd>
+    {% else %}
+    
+    {% endif %}
+
+    {% if (a.factionFileName and d.factionFileName) %}
+    <dt>Ready:</dt>
+    <dd>
+      <button name="run" type="submit" value="calculate">Calculate!</button>
+    </dd>
+    {% endif %}
+  </dl>
+</form>
+
+{% if calculated %}
+<table>
+  <tr>
+    <th>Wounds</th>
+    {% for e in result[0:11] %}
+    <th> {{ '{:d}+'.format(e[0]) }}</th>
+    {% endfor %}
+  </tr>
+  <tr>
+    <td>Cum prob </td>
+    {% for e in result[0:11] %}
+    <td> {{ '{:.1f}%'.format(e[3]*100) }}</td>
+    {% endfor %}
+  </tr>
+</table>
+<br/>
+AVG: {{ '{:.1f}%'.format(result[0][4]) }}
+
+{% endif %}
+
+
+{% endblock %}
