@@ -13,14 +13,14 @@
     {% if aunitlist %}
     <dt>Attacker Unit:</dt>
     <dd>
-      <select name="aunit">
+      <select name="aunit" onchange="this.form.submit();">
 	{% for entry in aunitlist %}
 	<option value="{{ entry }}"{% if a.name == entry %}selected{% endif %}>{{ entry }}</option>
 	{% endfor %}
       </select>
     </dd>
     <dt>Attacker Models:</dt>
-    <dd><input type="text" size="2" name="amodels" value="{{ a.models }}"></dd>
+    <dd><input type="text" size="2" name="amodels" value="{{ a.models }}" onchange="this.form.submit();"></dd>
     {% else %}
     
     {% endif %}
@@ -36,19 +36,44 @@
     {% if dunitlist %}
     <dt>Defender Unit:</dt>
     <dd>
-      <select name="dunit">
+      <select name="dunit" onchange="this.form.submit();">
 	{% for entry in dunitlist %}
 	<option value="{{ entry }}"{% if d.name == entry %}selected{% endif %}>{{ entry }}</option>
 	{% endfor %}
       </select>
     </dd>
     <dt>Defender Models:</dt>
-    <dd><input type="text" size="2" name="dmodels" value="{{ d.models }}"></dd>
+    <dd><input type="text" size="2" name="dmodels" value="{{ d.models }}" onchange="this.form.submit();"></dd>
     {% else %}
     
     {% endif %}
 
     {% if (a.factionFileName and d.factionFileName) %}
+    <hr/>
+    <dt>Attacker stats:</dt>
+    <dd>
+      <table>
+	<tr>
+	  <td class="charinput">WS: <input type="text" size="1" name="aws" value="{{ a.WS }}"></td>
+	  <td class="charinput">S:  <input type="text" size="1" name="as"  value="{{ a.S  }}"></td>
+	  <td class="charinput">A:  <input type="text" size="1" name="aa"  value="{{ a.A  }}"></td>
+	  <td class="charinput">MW: <input type="text" size="1" name="amw" value="{{ a.special.multiple  }}"></td>
+	  <td class="charinput">A (tot):  <input type="text" size="2" name="atota"  value="{{ a.totA  }}"></td>
+	</tr>
+      </table>
+    </dd>
+    <dt>Defender stats:</dt>
+    <dd>
+      <table>
+	<tr>
+	  <td class="charinput">WS: <input type="text" size="1" name="dws" value="{{ d.WS }}"></td>
+	  <td class="charinput">T:  <input type="text" size="1" name="dt"  value="{{ d.T  }}"></td>
+	  <td class="charinput">AS:  <input type="text" size="1" name="das"  value="{{ d.AS  }}"></td>
+	  <td class="charinput">W:  <input type="text" size="1" name="dw"  value="{{ d.W  }}"></td>
+	</tr>
+      </table>
+    </dd>
+    
     <dt>Ready:</dt>
     <dd>
       <button name="run" type="submit" value="calculate">Calculate!</button>
@@ -58,6 +83,7 @@
 </form>
 
 {% if calculated %}
+<hr/>
 <table>
   <tr>
     <th>Wounds</th>
@@ -73,7 +99,7 @@
   </tr>
 </table>
 <br/>
-AVG: {{ '{:.1f}%'.format(result[0][4]) }}
+AVG: {{ '{:.1f}'.format(result[0][4]) }}
 
 {% endif %}
 

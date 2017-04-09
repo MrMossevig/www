@@ -21,6 +21,10 @@ def projects_TheMathAge(request):
     aunitlist = None
     attacker  = None
 
+    submitted = False
+    if (request.args.get('run') == "calculate"):
+        submitted = True
+
     if (afaction):
         aunitlist = list_units(afaction)
         aunit   = request.args.get('aunit')
@@ -31,6 +35,19 @@ def projects_TheMathAge(request):
             amodels = 1
         attacker = unit(XML=True, models = amodels)
         attacker.loadData(factionFileName=afaction, name=aunit)
+        if(submitted):
+            if(request.args.get('aws')):
+                attacker.WS = int(request.args.get('aws'))
+            if(request.args.get('as')):
+                attacker.S  = int(request.args.get('as'))
+            if(request.args.get('aa')):
+                attacker.A  = request.args.get('aa')
+            if(request.args.get('amw')):
+                attacker.special.multiple = request.args.get('amw')
+            if(request.args.get('atota')):
+                attacker.totA = int(request.args.get('atota'))
+
+
         # attacker.employRules(['Lance','Heavy Armor','Shield','Barding','Mounts Protection (6+)'])
 
 
@@ -53,23 +70,29 @@ def projects_TheMathAge(request):
             dmodels = 1
         defender = unit(XML=True, models = dmodels)
         defender.loadData(factionFileName=dfaction, name=dunit)
-        # defender.employRules(['Born Predator','Innate Defence (3+)', 'Multiple Wounds (D3)']) 
+        # defender.employRules(['Born Predator','Innate Defence (3+)', 'Multiple Wounds (D3)'])
+        if(submitted):
+            if(request.args.get('dws')):
+                defender.WS = int( request.args.get('dws'))
+            if(request.args.get('dt')):
+                defender.T  = int( request.args.get('dt'))
+            if(request.args.get('das')):
+                defender.AS = int( request.args.get('das'))
+            if(request.args.get('dw')):
+                defender.W  = int( request.args.get('dw'))
 
 
     woundTotTable = []
 
-    calculated = False
-
-    if (request.args.get('run') == "calculate"):
+    if (submitted):
         woundTotTable = TheMathAge_combat.main(attacker, defender)
-        calculated = True
 
     return render_template('p_TheMathAge.html', 
-                           title="TheMathAge",
-                           factionlist=factionlist,
-                           aunitlist=aunitlist,
-                           a=attacker,
-                           dunitlist=dunitlist,
-                           d=defender,
-                           result=woundTotTable,
-                           calculated=calculated)
+                           title       = "TheMathAge",
+                           factionlist = factionlist,
+                           aunitlist   = aunitlist,
+                           a           = attacker,
+                           dunitlist   = dunitlist,
+                           d           = defender,
+                           result      = woundTotTable,
+                           calculated  = submitted)
